@@ -1,12 +1,6 @@
 package GamePackage;
 import GamePackage.Player.*;
 
-enum GameStatus{
-    start,
-    finished
-}
-
-
 public class GameController {
     private boolean isGameGoing;
     private Player firstPlayer;
@@ -25,6 +19,8 @@ public class GameController {
             System.out.println("Bad parameters!");
         }
     }
+
+    public GameController(){}
 
     private void startGame(){
         switch (gameStatus){
