@@ -1,39 +1,53 @@
 package GamePackage.Player;
+import GamePackage.Grid;
+import GamePackage.GridOperations;
 
-public class MoveChecker {
+import java.util.Random;
 
-    private static char playerCharacter;
-    public static char[][] checkForEndMove(char[][] currentGrid, PlayerCharacter playerCharacter){
-        char playerChar = playerCharacter.toString().charAt(0);
+public class MediumAI extends Player{
 
-        char[][] bufGrid = checkForRowDoubles(currentGrid, playerChar);
-        if(bufGrid != null){
-            return currentGrid;
-        }
-
-        bufGrid = checkForColumnDoubles(currentGrid, playerChar);
-        if(bufGrid != null){
-            return currentGrid;
-        }
-
-        bufGrid = checkForDiagonalDoubles(currentGrid, playerChar);
-        if(bufGrid != null){
-            return currentGrid;
-        }
-
-        return null;
+    public MediumAI(PlayerCharacter playerCharacter){
+        this.playerCharacter = playerCharacter;
     }
 
-    public static char[][] checkForBlockMove(char[][] currentGrid, PlayerCharacter playerCharacter, PlayerCharacter opponentCharacter){
-        char opponentChar = opponentCharacter.toString().charAt(0);
-        MoveChecker.playerCharacter = playerCharacter.toString().charAt(0);
-        checkForRowDoubles(currentGrid, opponentChar);
+    @Override
+    public GridOperations makeMove(GridOperations inputGrid){
+        GridOperations grid = inputGrid;
+        char[][] currentGrid = grid.getGrid();
 
-        return null;
+        char[][] bufGrid = MoveChecker.checkForEndMove(currentGrid, playerCharacter);
+        if(bufGrid != null){
+            grid.setGrid(bufGrid);
+            return grid;
+        }
+
+        bufGrid = MoveChecker.checkForBlockMove(currentGrid, playerCharacter, getOpponentCharacter());
+        if(bufGrid != null){
+            grid.setGrid(bufGrid);
+            return grid;
+        }
+
+       return makeRandomMove(grid);
     }
 
-    private static char[][] checkForRowDoubles(char[][] currentGrid, char playerCharacter){
-        for (int i = 0; i < currentGrid[0].length; i++) {
-            if(currentGrid[i][0] + currentGrid[i][1] == playerCharacter * 2){
-                currentGrid[i][2] = MoveChecker.playerCharacter;
-        
+    private GridOperations makeRandomMove(GridOperations grid){
+        Random random = new Random();
+        int cycleCounter = 0;
+        while (cycleCounter < 100) {
+            int i = random.nextInt(3);
+            int j = random.nextInt(3);
+            char[][] currentGrid = grid.getGrid();
+            if (currentGrid[i][j] == '_') {
+                currentGrid[i][j] = playerCharacter.toString().charAt(0);
+                break;
+            }
+            cycleCounter++;
+        }
+        return grid;
+    }
+
+    @Override
+    public String getLevel() {
+        return "medium";
+    }
+}

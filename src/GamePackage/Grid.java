@@ -1,6 +1,6 @@
 package GamePackage;
 
-public class Grid {
+public class Grid implements GridOperations{
     private char[][] grid;
     public Grid(){
         grid = new char[][]{{'_','_','_'},{'_','_','_'},{'_','_','_'}};

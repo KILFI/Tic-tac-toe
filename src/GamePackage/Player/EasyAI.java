@@ -1,5 +1,7 @@
 package GamePackage.Player;
 import GamePackage.Grid;
+import GamePackage.GridOperations;
+
 import java.util.Random;
 
 public class EasyAI extends Player{
@@ -8,7 +10,7 @@ public class EasyAI extends Player{
         this.playerCharacter = playerCharacter;
     }
     @Override
-    public Grid makeMove(Grid grid){
+    public GridOperations makeMove(GridOperations grid){
         Random random = new Random();
         int cycleCounter = 0;
         while (cycleCounter < 100) {
